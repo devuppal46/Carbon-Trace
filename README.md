@@ -1,3 +1,8 @@
+# Carbon-Trace
+
+## Repository Structure
+
+```text
 carbon-trace/
 ├── config/
 │   └── sectors.json          # Emission factors & caps
