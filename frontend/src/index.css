@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: #2f7f34;
+  --color-background-light: #f6f8f6;
+  --color-background-dark: #141e15;
+  --color-surface-dark: #1f2d20;
+  --color-border-dark: #2c3f2d;
+  --color-hero-bg: #060d07;
+  --color-emerald-accent: #34d399;
+  --color-emerald-light: #6ee7b7;
+  --font-display: "Space Grotesk", sans-serif;
+  --radius: 0.5rem;
+
+  /* shadcn/ui theme colors — green-aligned */
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(150 10% 5%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(150 10% 5%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(150 10% 5%);
+  --color-primary-foreground: hsl(140 30% 98%);
+  --color-secondary: hsl(140 15% 96%);
+  --color-secondary-foreground: hsl(150 12% 11%);
+  --color-muted: hsl(140 15% 96%);
+  --color-muted-foreground: hsl(150 8% 46%);
+  --color-accent: hsl(140 15% 96%);
+  --color-accent-foreground: hsl(150 12% 11%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(140 30% 98%);
+  --color-border: hsl(140 12% 91%);
+  --color-input: hsl(140 12% 91%);
+  --color-ring: hsl(142 43% 34%);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background-light);
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+
+  body::selection,
+  *::selection {
+    background-color: var(--color-primary);
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--color-background-dark);
+    color: hsl(140 20% 96%);
+  }
+}
+
+.dark body {
+  background-color: var(--color-background-dark);
+  color: hsl(140 20% 96%);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  line-height: 1;
+}
+
+/* Animated gradient text */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+/* Smooth focus styles */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.dark {
+  --background: var(--color-background-dark);
+}
+
+@theme inline {
+  --color-background: var(--background);
+}
