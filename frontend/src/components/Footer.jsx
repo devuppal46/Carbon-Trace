@@ -26,7 +26,7 @@ const socialIcons = [
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border dark:border-border-dark bg-white dark:bg-background-dark">
+    <footer className="border-t border-border bg-background">
       <div className="max-w-[1100px] mx-auto px-6 md:px-10 py-14">
         <div className="flex flex-col md:flex-row justify-between items-start gap-10">
           {/* Brand */}
@@ -35,11 +35,11 @@ const Footer = () => {
               <div className="size-7 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Leaf className="w-3.5 h-3.5 text-primary" />
               </div>
-              <span className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+              <span className="text-base font-bold text-white tracking-tight">
                 Carbon-Trace
               </span>
             </a>
-            <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+            <p className="text-slate-400 text-sm leading-relaxed">
               Helping industries measure, report, and reduce their carbon
               footprint for a sustainable future.
             </p>
@@ -49,13 +49,13 @@ const Footer = () => {
           <div className="flex flex-wrap gap-12 md:gap-16">
             {Object.entries(footerLinks).map(([title, links]) => (
               <div key={title} className="flex flex-col gap-3">
-                <h4 className="text-slate-900 dark:text-white text-xs font-semibold uppercase tracking-wider">
+                <h4 className="text-white text-xs font-semibold uppercase tracking-wider">
                   {title}
                 </h4>
                 {links.map((link) => (
                   <a
                     key={link}
-                    className="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm transition-colors duration-200"
+                    className="text-slate-400 hover:text-primary text-sm transition-colors duration-200"
                     href="#"
                   >
                     {link}
@@ -69,7 +69,7 @@ const Footer = () => {
         <div className="h-px w-full bg-border dark:bg-border-dark mt-10 mb-8" />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-muted-foreground dark:text-muted-foreground text-xs">
+          <p className="text-muted-foreground text-xs">
             © {new Date().getFullYear()} Carbon-Trace Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-6">

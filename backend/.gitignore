@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Backend generated data
+backend/data/outputs/
+
+# Node
+node_modules/
+
+# Environment files
+.env
