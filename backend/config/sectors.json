@@ -1,12 +1,35 @@
 {
-  "caps_by_sector": {
-    "Steel": 500000.0,
-    "Textile": 200000.0,
-    "Electronics": 300000.0
+  "sectors": {
+    "Steel": {
+      "emission_factor": {
+        "production_per_ton": 1850.0,
+        "energy_per_mwh": 820.0,
+        "material_processing_per_ton": 120.0
+      },
+      "carbon_cap_kg": 90000000
+    },
+    "Textile": {
+      "emission_factor": {
+        "production_per_ton": 450.0,
+        "energy_per_mwh": 520.0,
+        "material_processing_per_ton": 65.0
+      },
+      "carbon_cap_kg": 7500000
+    },
+    "Electronics": {
+      "emission_factor": {
+        "production_per_ton": 760.0,
+        "energy_per_mwh": 680.0,
+        "material_processing_per_ton": 95.0
+      },
+      "carbon_cap_kg": 13000000
+    }
   },
-  "energy_multipliers": {
-    "coal": 1.2,
+  "energy_source_multipliers": {
+    "coal": 1.25,
+    "natural_gas": 0.85,
     "grid": 1.0,
-    "renewable": 0.7
+    "renewable": 0.35,
+    "nuclear": 0.15
   }
 }
