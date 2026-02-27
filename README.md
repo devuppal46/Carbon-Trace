@@ -1,281 +1,366 @@
-# Carbon-Trace
+<div align="center">
 
-**Industrial Emission Auditor — UN SDG 13: Climate Action**
+# 🌍 Carbon-Trace
 
-Carbon-Trace is a full-stack web application that tracks, measures, and audits carbon emissions across industrial factories in three sectors: **Steel**, **Textile**, and **Electronics**. Users upload monthly production data (CSV), and the system runs an automated audit pipeline — cleaning data, computing per-factory emissions using **closure-based auditors**, detecting carbon cap violations, and presenting results through an interactive dashboard.
+### Industrial Emission Auditor for Climate Action
+
+**UN SDG 13: Climate Action**
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+
+*A full-stack carbon auditing platform demonstrating Python **closures** for secure, isolated state management in industrial emission tracking.*
+
+[Features](#-key-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Closures Deep Dive](#-the-closures-architecture) • [API](#-api-reference)
 
 ---
 
-## Tech Stack
+</div>
 
-| Layer    | Technology                                                    |
-| -------- | ------------------------------------------------------------- |
-| Backend  | Python · FastAPI · Uvicorn · Pandas · Matplotlib              |
-| Frontend | React 19 · Vite 7 · Tailwind CSS 4 · Recharts · Framer Motion |
-| Concepts | Closures · Encapsulation · Functional State Management        |
+## 📋 Overview
+
+**Carbon-Trace** is an industrial carbon emission auditing system that processes monthly production data from factories across **Steel**, **Textile**, and **Electronics** sectors. The application demonstrates how **Python closures** can provide:
+
+- 🔒 **True Data Privacy** — Emission factors and cumulative totals are encapsulated within function scope
+- 🏭 **Factory Independence** — Each factory gets its own isolated auditor with zero cross-contamination
+- 📊 **Stateful Computation** — Running totals persist across monthly calls without global state
+
+### How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           CARBON-TRACE WORKFLOW                             │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   📁 CSV Upload    →    🧹 10-Step Cleaning    →    🏭 Closure Auditors     │
+│                                                                             │
+│   ┌───────────┐         ┌───────────────┐          ┌──────────────────┐    │
+│   │ 50 factories       │ • Validate     │          │ Each factory gets│    │
+│   │ × 12 months │  →   │ • Normalize    │  →       │ its own closure  │    │
+│   │ = 600 rows  │       │ • Deduplicate  │          │ with private     │    │
+│   └───────────┘         └───────────────┘          │ state variables  │    │
+│                                                     └────────┬─────────┘    │
+│                                                              │              │
+│   ┌─────────────────────────────────────────────────────────▼───────────┐  │
+│   │                        AUDIT RESULTS                                 │  │
+│   │   📊 Summary CSV  •  📈 Emissions Chart  •  🚨 Cap Violation Alerts  │  │
+│   └─────────────────────────────────────────────────────────────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## Project Structure
+## ✨ Key Features
+
+| Feature | Description |
+|---------|-------------|
+| 🔐 **Closure-Based Auditors** | Each factory's emission calculator is a closure with private state — impossible to tamper with from outside |
+| 📤 **CSV Upload & Validation** | 10-step cleaning pipeline: whitespace stripping, sector normalization, energy source mapping, deduplication |
+| 📊 **Real-Time Dashboard** | Interactive pie charts, bar graphs, tabbed data tables with sorting and filtering |
+| 🚨 **Carbon Cap Monitoring** | Automatic detection and alerting when factories exceed their annual emission limits |
+| 📈 **Cumulative Emission Charts** | Server-generated matplotlib visualizations showing emission growth over 12 months |
+| 🌐 **Interactive 3D Globe** | WebGL globe with factory location markers using the `cobe` library |
+| 📱 **Responsive Design** | Full mobile support with dark mode, smooth animations via Framer Motion |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Python** 3.10+
+- **Node.js** 18+
+
+### 1️⃣ Clone & Setup Backend
+
+```bash
+git clone https://github.com/your-username/Carbon-Trace.git
+cd Carbon-Trace/backend
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Linux/macOS
+# .venv\Scripts\Activate.ps1     # Windows PowerShell
+
+# Install dependencies
+pip install fastapi uvicorn pandas matplotlib python-multipart
+
+# Start server
+uvicorn api.main:app --reload --port 8000
+```
+
+✅ **Backend running at:** http://localhost:8000  
+📚 **API Docs:** http://localhost:8000/docs
+
+### 2️⃣ Setup Frontend
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+✅ **App running at:** http://localhost:5173
+
+### 3️⃣ Try It Out
+
+1. Open http://localhost:5173
+2. Click **"Start Auditing"**
+3. Upload `backend/data/monthly_production.csv` (sample dataset included)
+4. View the audit dashboard with charts, tables, and violator reports
+
+---
+
+## 🏗 Architecture
+
+### Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Backend** | Python · FastAPI · Uvicorn | REST API server with async support |
+| **Data Processing** | Pandas · Matplotlib | CSV manipulation and chart generation |
+| **Frontend** | React 19 · Vite 7 | Modern SPA with hot module replacement |
+| **Styling** | Tailwind CSS 4 | Utility-first CSS framework |
+| **Charts** | Recharts | React-based charting library |
+| **Animations** | Framer Motion | Production-ready motion library |
+| **3D Globe** | Cobe | WebGL-based interactive earth globe |
+
+### Project Structure
 
 ```
 Carbon-Trace/
-├── backend/
+├── 📁 backend/
 │   ├── api/
-│   │   └── main.py                 # FastAPI server — endpoints, CORS, file serving
+│   │   └── main.py                 # FastAPI endpoints, CORS, file serving
 │   ├── src/
-│   │   ├── closures.py             # Core: make_emission_auditor() closure factory
-│   │   ├── models.py               # Industry class — wraps closures with read-only interface
-│   │   ├── runner.py               # Audit pipeline — CSV → closures → summary CSV + chart
-│   │   ├── data_gen.py             # Synthetic data generator (50 factories × 12 months)
-│   │   └── __init__.py
-│   ├── web_pipeline.py             # 10-step CSV cleaning & validation
+│   │   ├── closures.py             # 🔑 Core: make_emission_auditor() closure factory
+│   │   ├── models.py               # Industry class wrapping closures
+│   │   ├── runner.py               # Audit orchestration pipeline
+│   │   └── data_gen.py             # Synthetic data generator
+│   ├── web_pipeline.py             # 10-step CSV cleaning
 │   ├── config/
-│   │   └── sectors.json            # Emission factors, carbon caps, energy multipliers
+│   │   └── sectors.json            # Emission factors & carbon caps
 │   ├── data/
 │   │   └── monthly_production.csv  # Sample dataset (600 rows)
 │   └── tests/
 │       └── test_closures.py        # 6 unit tests for closure behavior
 │
-├── frontend/
+├── 📁 frontend/
 │   ├── src/
-│   │   ├── App.jsx                 # Router: / → Landing, /upload → Upload, /dashboard → Dashboard
+│   │   ├── App.jsx                 # React Router setup
 │   │   ├── pages/
-│   │   │   ├── LandingPage.jsx     # Hero, globe, stats, features, SDG 13 section
+│   │   │   ├── LandingPage.jsx     # Hero, globe, features
 │   │   │   ├── UploadPage.jsx      # Drag-and-drop CSV upload
-│   │   │   └── DashboardPage.jsx   # Charts, tables, export — displays audit results
-│   │   ├── components/
-│   │   │   ├── Navbar.jsx          # Fixed header with scroll-aware transparency
-│   │   │   ├── Footer.jsx          # Site footer with link columns
-│   │   │   ├── InteractiveGlobe.jsx # WebGL 3D globe (cobe library)
-│   │   │   ├── ui/                 # Reusable UI primitives (shadcn/ui pattern)
-│   │   │   └── animations/         # ScrollReveal, TextAnimations, MicroInteractions
-│   │   └── lib/
-│   │       └── utils.js            # Tailwind class merge utility
-│   ├── package.json
-│   └── vite.config.js
+│   │   │   └── DashboardPage.jsx   # Charts, tables, export
+│   │   └── components/
+│   │       ├── InteractiveGlobe.jsx
+│   │       ├── Navbar.jsx
+│   │       ├── animations/         # Scroll, text, micro-interactions
+│   │       └── ui/                 # shadcn/ui components
+│   └── package.json
 │
-└── README.md                       # ← You are here
+└── README.md
 ```
 
 ---
 
-## Backend Architecture
+## 🔐 The Closures Architecture
 
-### API Endpoints
+> **This is the core curriculum focus of the project — demonstrating how closures provide data security and state isolation in Python.**
 
-| Method   | Endpoint                                   | Purpose                           |
-| -------- | ------------------------------------------ | --------------------------------- |
-| `GET`    | `/`                                        | Health check                      |
-| `POST`   | `/upload-csv`                              | Upload CSV → clean → audit → JSON |
-| `GET`    | `/outputs/{job_id}/audit_summary_2026.csv` | Download audit summary CSV        |
-| `GET`    | `/outputs/{job_id}/emissions_chart.png`    | Download emissions chart PNG      |
-| `DELETE` | `/outputs/{job_id}`                        | Cleanup job output files          |
+### What is a Closure?
 
-### Pipeline Flow
+A closure is a function that **remembers** variables from its enclosing scope even after that scope has finished executing. In Carbon-Trace, each factory gets its own **auditor closure** that:
 
-```
-CSV Upload
-    │
-    ▼
-1. Validate & save file
-    │
-    ▼
-2. web_pipeline.clean_csv()        →  10-step cleaning (normalize, deduplicate, clamp)
-    │
-    ▼
-3. runner.run_audit()              →  Create Industry instances per factory
-    │                                  Each Industry creates a closure via make_emission_auditor()
-    │                                  Process 12 months of data through each closure
-    ▼
-4. runner.write_summary_csv()      →  Per-factory summary CSV
-   runner.plot_emissions()         →  Cumulative emissions chart (top factories per sector)
-    │
-    ▼
-5. JSON Response                   →  Summary, sector breakdown, violators, factory details,
-                                      cleaning report, download file paths
-```
+1. **Encapsulates private state** — emission factors, running totals, and history
+2. **Persists across calls** — each month's data adds to the cumulative total
+3. **Cannot be tampered with** — no external code can access or modify the internal state
 
-### Core Modules
+### The Closure Factory Pattern
 
-- **`closures.py`** — `make_emission_auditor()` returns a closure that computes and accumulates emissions per factory. Private state includes emission factors, cumulative totals, carbon cap, and monthly log.
-- **`models.py`** — `Industry` class wraps the closure with a clean public interface: `record_month()`, and read-only properties (`total_emissions`, `alerts_count`, `is_over_cap`, `history`).
-- **`runner.py`** — Orchestrates the full audit: loads config, reads CSV rows, creates `Industry` per factory, calls `record_month()` for each row, generates summary CSV and matplotlib chart.
-- **`web_pipeline.py`** — Cleans raw CSV in 10 steps: column validation, whitespace stripping, sector normalization, energy source mapping, numeric coercion, month clamping, negative removal, deduplication, sorting.
-- **`data_gen.py`** — Generates synthetic production data for 50 factories across 3 sectors with seasonal variation and weighted energy source selection.
+```python
+# closures.py — Simplified view
 
-### Configuration — `config/sectors.json`
-
-| Sector      | Carbon Cap (kg CO₂) | Production Factor | Energy Factor | Material Factor |
-| ----------- | ------------------- | ----------------- | ------------- | --------------- |
-| Steel       | 90,000,000          | 1,850 /ton        | 820 /MWh      | 120 /ton        |
-| Textile     | 7,500,000           | 450 /ton          | 520 /MWh      | 65 /ton         |
-| Electronics | 13,000,000          | 760 /ton          | 680 /MWh      | 95 /ton         |
-
-Energy source multipliers: Coal 1.25× · Natural Gas 0.85× · Grid 1.0× · Renewable 0.35× · Nuclear 0.15×
-
----
-
-## Frontend Architecture
-
-### Pages & Routing
-
-| Route        | Page            | Description                                                                           |
-| ------------ | --------------- | ------------------------------------------------------------------------------------- |
-| `/`          | `LandingPage`   | Hero with parallax, interactive 3D globe, animated stats, features, SDG 13 mission    |
-| `/upload`    | `UploadPage`    | Drag-and-drop CSV upload zone, validates file, sends to backend                       |
-| `/dashboard` | `DashboardPage` | Summary cards, pie chart (sectors), bar chart (violators), tabbed data tables, export |
-
-### Data Flow
-
-```
-LandingPage  →  "Get Started" button  →  UploadPage
-                                              │
-                                         User drops CSV
-                                              │
-                                         POST /upload-csv (FormData)
-                                              │
-                                         Backend returns JSON
-                                              │
-                                         Navigate to /dashboard
-                                         (pass auditData via React Router state)
-                                              │
-                                         DashboardPage renders:
-                                           • 3 summary cards
-                                           • Pie chart (emissions by sector)
-                                           • Bar chart (top 5 violators)
-                                           • Factory/Violator/Sector tables (tabbed)
-                                           • Server-generated emissions chart (PNG)
-                                           • Export CSV button
+def make_emission_auditor(sector, emission_factor, carbon_cap_kg, energy_multipliers):
+    """
+    Factory function that returns a closure for one factory's emissions.
+    All variables defined here become PRIVATE to the returned function.
+    """
+    
+    # ═══════════════════════════════════════════════════════════════
+    # PRIVATE STATE — Only accessible to the inner function
+    # ═══════════════════════════════════════════════════════════════
+    _factors = {                          # Deep-copied, immutable from outside
+        "production_per_ton": float(emission_factor.get("production_per_ton", 0)),
+        "energy_per_mwh": float(emission_factor.get("energy_per_mwh", 0)),
+        "material_processing_per_ton": float(emission_factor.get("material_processing_per_ton", 0)),
+    }
+    _total_emissions = 0.0                 # Accumulates via nonlocal
+    _cap = float(carbon_cap_kg)            # Carbon cap threshold
+    _monthly_log = []                      # History of monthly emissions
+    
+    # ═══════════════════════════════════════════════════════════════
+    # THE CLOSURE — Returned to caller, carries private state with it
+    # ═══════════════════════════════════════════════════════════════
+    def auditor(production_tons, energy_mwh, energy_source=None, raw_material_tons=None):
+        nonlocal _total_emissions          # Access outer scope variable
+        
+        # Compute emissions from all components
+        emissions = (
+            production_tons * _factors["production_per_ton"] +
+            energy_mwh * _factors["energy_per_mwh"] +
+            (raw_material_tons or 0) * _factors["material_processing_per_ton"]
+        )
+        
+        # Apply energy source multiplier
+        multiplier = _energy_multipliers.get(energy_source, 1.0)
+        emissions *= multiplier
+        
+        # Accumulate state (persists across calls!)
+        _total_emissions += emissions
+        _monthly_log.append(emissions)
+        
+        return {
+            "monthly_emissions_kg": emissions,
+            "total_emissions_kg": _total_emissions,
+            "status": "ALERT" if _total_emissions > _cap else "OK"
+        }
+    
+    return auditor   # Return the closure, not call it
 ```
 
-### Key Components
+### Why Closures Instead of Classes?
 
-- **InteractiveGlobe** — WebGL 3D globe using `cobe` with 15 location markers, drag interaction, auto-rotation
-- **Navbar** — Fixed position, scroll-aware background opacity, responsive with mobile hamburger menu
-- **Animation System** — `ScrollReveal`, `StaggerContainer`, `AnimatedCounter`, `TextReveal`, `MagneticButton`, `FloatingElement` powered by Framer Motion
+| Aspect | Regular Class | Closure |
+|--------|--------------|---------|
+| **Data Privacy** | Convention only (`self._private`) — can still be accessed | True privacy — variables exist only in function scope |
+| **External Mutation** | `obj._total = 0` works | ❌ Impossible — no reference to internal state |
+| **State Isolation** | Must manually prevent sharing | Automatic — each closure is independent |
+| **Memory Footprint** | Full object overhead | Lightweight function + captured variables |
 
----
-
-## Curriculum Focus: Closures
-
-The backend architecture is intentionally designed around **closures** as the core computation pattern. The function `make_emission_auditor()` in `closures.py` is a **closure factory** — it returns an inner function that carries private state with it.
-
-### Why Closures?
-
-#### 1. Data Security
-
-Closures provide **true data privacy** without relying on naming conventions or access modifiers.
-
-- **Lexical scoping** — Variables like `_factors`, `_total_emissions`, `_cap`, and `_monthly_log` are defined inside `make_emission_auditor()` and are **only accessible** to the returned inner function. No external code can read or modify them directly.
-
-- **Deep-copied factors** — When a closure is created, the emission factors dictionary is **deep-copied**. Even if the original dict is mutated afterward, the closure's internal copy remains unchanged. This prevents accidental or malicious data corruption.
-
-- **No public attributes** — Unlike a regular class where `self.total_emissions` could be reassigned from outside (`factory.total_emissions = 0`), closure variables cannot be reached. The `Industry` class in `models.py` further reinforces this by exposing only **read-only `@property` methods** and keeping the `_auditor` closure as a private attribute.
-
-- **Tested & verified** — `test_encapsulation` in the test suite explicitly confirms that mutating the original factors dict after closure creation has **zero effect** on the closure's computations.
-
-#### 2. State Management
-
-Closures provide **persistent, isolated state** without global variables or databases.
-
-- **`nonlocal` accumulation** — The `_total_emissions` variable persists across multiple calls to the same closure via Python's `nonlocal` keyword. Each call to the auditor adds that month's emissions to the running total. This is the equivalent of a stateful counter that lives entirely inside the function's scope.
-
-- **Monthly history log** — Each closure maintains its own `_monthly_log` list, building up a complete 12-month emission timeline without any external storage.
-
-- **Factory independence** — Each factory gets **its own closure instance** with completely isolated state. Factory A's cumulative emissions have no connection to Factory B's. There is no shared mutable state, no global dictionary, and no risk of cross-contamination between factories.
-
-- **Cap monitoring** — The closure tracks whether cumulative emissions exceed the carbon cap and returns an `"ALERT"` or `"OK"` status on every call — stateful compliance checking baked into the function itself.
-
-### How It Works
-
-```
-make_emission_auditor(sector, factors, cap, multipliers)
-    │
-    │  Creates private variables:
-    │    _factors            ← deep copy of emission factors (immutable from outside)
-    │    _total_emissions    ← starts at 0 (accumulates via nonlocal)
-    │    _cap               ← carbon cap threshold
-    │    _monthly_log       ← empty list (grows each month)
-    │    _energy_multipliers ← source-specific multipliers
-    │
-    └── Returns: auditor(production, energy, source, material)
-                    │
-                    │  On each call:
-                    │    1. Compute monthly emissions (production + energy + material)
-                    │    2. Apply energy source multiplier
-                    │    3. Add to _total_emissions (nonlocal)
-                    │    4. Append to _monthly_log
-                    │    5. Check _total_emissions vs _cap
-                    │    6. Return { emissions, total, status, breakdown }
-                    │
-                    └── State persists between calls. No external access to internals.
-```
-
-### Closures vs Alternatives
-
-| Approach             | Data Security             | State Management                 | Used Here? |
-| -------------------- | ------------------------- | -------------------------------- | ---------- |
-| **Global variables** | None — anyone can modify  | Shared, error-prone              | No         |
-| **Plain classes**    | Convention only (`_name`) | Works, but attributes exposed    | No         |
-| **Closures**         | True privacy via scoping  | `nonlocal` persistence, isolated | **Yes**    |
-
----
-
-## Setup & Run
-
-### Prerequisites
-
-- Python 3.10+
-- Node.js 18+
-
-### Backend
-
-```bash
-cd backend
-python -m venv .venv
-.venv\Scripts\Activate.ps1          # Windows PowerShell
-pip install fastapi uvicorn pandas matplotlib python-multipart
-uvicorn api.main:app --reload --port 8000
-```
-
-- Health check: http://localhost:8000
-- Swagger docs: http://localhost:8000/docs
-
-### Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-- App: http://localhost:5173
-
-> Both servers must run simultaneously. CORS is pre-configured — no proxy needed.
-
----
-
-## Testing
+### Tested & Verified
 
 ```bash
 cd backend
 python tests/test_closures.py
 ```
 
-Runs **6 tests** covering:
-
-| Test                            | Validates                                               |
-| ------------------------------- | ------------------------------------------------------- |
-| `test_state_persistence`        | 12-month emission accumulation in closure               |
-| `test_encapsulation`            | External dict mutation doesn't affect closure internals |
-| `test_carbon_cap_alert`         | ALERT status when cumulative emissions exceed cap       |
-| `test_factory_independence`     | Two factories maintain completely separate state        |
-| `test_raw_material_impact`      | Material processing correctly increases emissions       |
-| `test_energy_source_multiplier` | Coal vs renewable multipliers applied correctly         |
+| Test | What It Validates |
+|------|-------------------|
+| `test_state_persistence` | 12 monthly calls correctly accumulate emissions |
+| `test_encapsulation` | Mutating original factors dict has ZERO effect on closure |
+| `test_carbon_cap_alert` | ALERT status triggers when cap is exceeded |
+| `test_factory_independence` | Two factories maintain completely separate state |
+| `test_raw_material_impact` | Material weight contributes to emission total |
+| `test_energy_source_multiplier` | Coal (1.25×) vs Renewable (0.35×) produces different results |
 
 ---
 
-## License
+## 📚 API Reference
 
-Academic project — SIC Program.
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Health check — returns API status |
+| `POST` | `/upload-csv` | Upload CSV → clean → audit → return JSON |
+| `GET` | `/outputs/{job_id}/audit_summary_2026.csv` | Download audit summary CSV |
+| `GET` | `/outputs/{job_id}/emissions_chart.png` | Download cumulative emissions chart |
+| `DELETE` | `/outputs/{job_id}` | Cleanup job output files |
+
+### Upload Response Schema
+
+```json
+{
+  "job_id": "a1b2c3d4e5f6",
+  "summary": {
+    "total_factories": 50,
+    "total_emissions_kg": 1234567890.00,
+    "total_emissions_tons": 1234567.89,
+    "total_alerts": 12,
+    "factories_over_cap": 8
+  },
+  "sector_breakdown": {
+    "Steel": { "factories": 20, "total_emissions_kg": 800000000 },
+    "Textile": { "factories": 15, "total_emissions_kg": 200000000 },
+    "Electronics": { "factories": 15, "total_emissions_kg": 234567890 }
+  },
+  "violators": [...],
+  "factories": [...],
+  "files": {
+    "audit_csv": "/outputs/a1b2c3d4e5f6/audit_summary_2026.csv",
+    "chart": "/outputs/a1b2c3d4e5f6/emissions_chart.png"
+  }
+}
+```
+
+---
+
+## ⚙️ Configuration
+
+### Sector Emission Factors (`config/sectors.json`)
+
+| Sector | Carbon Cap | Production Factor | Energy Factor | Material Factor |
+|--------|------------|-------------------|---------------|-----------------|
+| **Steel** | 90,000 tons | 1,850 kg/ton | 820 kg/MWh | 120 kg/ton |
+| **Textile** | 7,500 tons | 450 kg/ton | 520 kg/MWh | 65 kg/ton |
+| **Electronics** | 13,000 tons | 760 kg/ton | 680 kg/MWh | 95 kg/ton |
+
+### Energy Source Multipliers
+
+| Source | Multiplier | Description |
+|--------|------------|-------------|
+| Coal | 1.25× | High carbon intensity |
+| Natural Gas | 0.85× | Lower than coal |
+| Grid | 1.00× | Baseline (mixed sources) |
+| Renewable | 0.35× | Solar, wind, hydro |
+| Nuclear | 0.15× | Lowest carbon intensity |
+
+---
+
+## 📊 Sample Data
+
+A pre-generated dataset is included at `backend/data/monthly_production.csv`:
+
+- **50 factories** across 3 sectors
+- **12 months** of production data per factory (600 rows total)
+- Realistic values with seasonal variation
+- Weighted energy source distribution by sector
+
+To regenerate with different parameters:
+
+```bash
+cd backend
+python -c "from src.data_gen import generate_monthly_data; generate_monthly_data('data/monthly_production.csv')"
+```
+
+---
+
+## 🎯 SDG 13: Climate Action
+
+This project contributes to **United Nations Sustainable Development Goal 13** by providing tools for:
+
+- **Measuring** industrial carbon emissions with precision
+- **Monitoring** compliance with carbon caps
+- **Identifying** high-emission factories for targeted reduction efforts
+- **Enabling** data-driven climate action decisions
+
+---
+
+## 📄 License
+
+Academic project — SIC Program
+
+---
+
+<div align="center">
+
+**Built with 💚 for Climate Action**
+
+*Demonstrating closures, encapsulation, and functional state management in a real-world sustainability context*
+
+</div>
